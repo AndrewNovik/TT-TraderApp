@@ -1,0 +1,111 @@
+<div class="card">
+  <p-table
+    #table1
+    [value]="exchangeRatesView"
+    showGridlines
+    stripedRows
+    sortMode="multiple"
+    scrollHeight="480px"
+    [virtualScroll]="true"
+    [globalFilterFields]="['symbol']"
+    [loading]="loading"
+    [tableStyle]="{ 'min-width': '60rem' }"
+  >
+    <ng-template #caption>
+      <div class="flex items-center justify-between">
+        <div>
+          <span
+            class="text-xl font-bold"
+            pTooltip="The timestamp (ms) that the system generates the data"
+            tooltipPosition="right"
+            >ByBit last update:
+            {{ dateFromByBit | date : "yyyy-MM-dd HH:mm:ss" }}</span
+          >
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #header>
+      <tr>
+        <th></th>
+        <th
+          pSortableColumn="symbol"
+          pTooltip="Symbol name"
+          tooltipPosition="bottom"
+        >
+          <div>Pairs <p-sortIcon field="symbol" /></div>
+          <div>
+            <p-columnFilter
+              type="text"
+              field="symbol"
+              placeholder="Search by name"
+              ariaLabel="Filter Name"
+              (click)="$event.stopPropagation()"
+            ></p-columnFilter>
+          </div>
+        </th>
+        <th
+          pSortableColumn="lastPrice"
+          pTooltip="Last price"
+          tooltipPosition="bottom"
+        >
+          lastPrice <p-sortIcon field="lastPrice" />
+        </th>
+        <th
+          pSortableColumn="price24hPcnt"
+          pTooltip="Percentage change of market price relative to 24h"
+          tooltipPosition="bottom"
+        >
+          24H Change % <p-sortIcon field="price24hPcnt" />
+        </th>
+        <th
+          pSortableColumn="highPrice24h"
+          pTooltip="The highest price in the last 24 hours"
+          tooltipPosition="bottom"
+        >
+          24H High <p-sortIcon field="highPrice24h" />
+        </th>
+        <th
+          pSortableColumn="lowPrice24h"
+          pTooltip="The lowest price in the last 24 hours"
+          tooltipPosition="bottom"
+        >
+          24H Low <p-sortIcon field="lowPrice24h" />
+        </th>
+        <th
+          pSortableColumn="volume24h"
+          pTooltip="Volume for 24h"
+          tooltipPosition="bottom"
+        >
+          24H Trading Volume <p-sortIcon field="volume24h" />
+        </th>
+        <th
+          pSortableColumn="turnover24h"
+          pTooltip="Turnover for 24h"
+          tooltipPosition="bottom"
+        >
+          24H Turn over <p-sortIcon field="turnover24h" />
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-rate let-rowIndex="rowIndex">
+      <tr>
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ rate.symbol }}</td>
+
+        <td>{{ rate.lastPrice | convertNums }}</td>
+        <td
+          [ngClass]="{
+          'risingPrice': isRateRising(+rate.price24hPcnt),
+          'fallingPrice': !isRateRising(+rate.price24hPcnt),
+        }"
+        >
+          {{ rate.price24hPcnt }}
+        </td>
+        <td>{{ rate.highPrice24h | convertNums }}</td>
+        <td>{{ rate.lowPrice24h | convertNums }}</td>
+        <td>{{ rate.volume24h | convertNums }}</td>
+        <td>{{ rate.turnover24h | convertNums }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
