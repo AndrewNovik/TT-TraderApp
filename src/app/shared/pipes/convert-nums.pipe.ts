@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'convertNums',
 })
 export class ConvertNumsPipe implements PipeTransform {
-  transform(value: number): unknown {
+  transform(value: number): string {
     const absNum = Math.abs(value);
     const sign = value < 0 ? '-' : '';
 
