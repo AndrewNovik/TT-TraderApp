@@ -5,7 +5,7 @@
   showGridlines
   stripedRows
   sortMode="multiple"
-  scrollHeight="527px"
+  scrollHeight="{{ itemHeight * 10 + headerHeight }}px"
   [virtualScroll]="true"
   [globalFilterFields]="['symbol']"
   [loading]="loading"
@@ -25,7 +25,7 @@
     </div>
   </ng-template>
   <ng-template #header>
-    <tr>
+    <tr [style]="'height:' + headerHeight + 'px'">
       <th></th>
       <th
         pSortableColumn="symbol"
@@ -88,7 +88,7 @@
     </tr>
   </ng-template>
   <ng-template #body let-rate let-rowIndex="rowIndex">
-    <tr>
+    <tr [style]="'height:' + itemHeight + 'px'">
       <td>{{ rowIndex + 1 }}</td>
       <td>{{ rate.symbol }}</td>
 
@@ -107,5 +107,9 @@
       <td>{{ +rate.turnover24h | convertNums }}</td>
     </tr>
   </ng-template>
-  <ng-template #empty>No data</ng-template>
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="8">There are no Data.</td>
+    </tr>
+  </ng-template>
 </p-table>
